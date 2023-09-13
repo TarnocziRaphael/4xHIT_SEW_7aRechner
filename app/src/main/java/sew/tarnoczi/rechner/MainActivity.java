@@ -108,6 +108,15 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPref = this.getPreferences(MODE_PRIVATE);
         int ergebnis = sharedPref.getInt("Ergebnis",0) ;
         TextView output = findViewById(R.id.output);
+        if(ergebnis > 0) {
+            output.setTextColor(Color.BLACK);
+        }
+        else if(ergebnis == 0){
+            output.setTextColor(Color.WHITE);
+        }
+        else {
+            output.setTextColor(Color.RED);
+        }
         output.setText(String.valueOf(ergebnis));
     }
 }
