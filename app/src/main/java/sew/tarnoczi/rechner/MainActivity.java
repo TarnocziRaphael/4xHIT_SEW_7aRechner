@@ -26,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        activateButtons();
         TextView output = findViewById(R.id.output);
         output.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -42,6 +41,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         findViewById(R.id.output).setBackgroundColor(Color.GREEN);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        activateButtons();
     }
 
     public void berechnen (View V) {
