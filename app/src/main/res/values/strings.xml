@@ -3,4 +3,5 @@
     <string name="hint_1">Wert 1</string>
     <string name="hint_2">Wert 2</string>
     <string name="berechnen">Berechnen</string>
+    <string name="ergebnis">Ergebnis</string>
 </resources>

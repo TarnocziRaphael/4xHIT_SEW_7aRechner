@@ -1,7 +1,14 @@
+/**
+ * Rechner Aufgabe 4xHIT
+ * @author Raphael Tarnoczi
+ * @version 13-09-2023
+ */
 package sew.tarnoczi.rechner;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -11,6 +18,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -18,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        activateRadioButtons();
+        activateButtons();
         TextView output = findViewById(R.id.output);
         output.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -29,6 +37,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        findViewById(R.id.output).setBackgroundColor(Color.GREEN);
+    }
+
     public void berechnen (View V) {
         EditText wert1 = findViewById(R.id.input1);
         EditText wert2 = findViewById(R.id.input2);
@@ -37,9 +52,9 @@ public class MainActivity extends AppCompatActivity {
         RadioButton rb = findViewById(idCheckedBox);
         char c = rb.getText().charAt(0);
         TextView output = findViewById(R.id.output);
-        double zahl1 = Double.parseDouble(wert1.getText().toString());
-        double zahl2 = Double.parseDouble(wert2.getText().toString());
-        double result;
+        int zahl1 = Integer.parseInt(wert1.getText().toString());
+        int zahl2 = Integer.parseInt(wert2.getText().toString());
+        int result;
         switch(c) {
             case '+':
                 result = zahl1+zahl2;
@@ -68,10 +83,26 @@ public class MainActivity extends AppCompatActivity {
         String text = String.valueOf(result);
         output.setText(text);
     }
-    public void activateRadioButtons() {
+    public void activateButtons() {
         findViewById(R.id.radioButton1).setEnabled(true);
         findViewById(R.id.radioButton2).setEnabled(true);
         findViewById(R.id.radioButton3).setEnabled(true);
         findViewById(R.id.radioButton4).setEnabled(true);
+        findViewById(R.id.buttonBerechnen).setEnabled(true);
+    }
+    public void saveErgebnis(View v) {
+        TextView output = findViewById(R.id.output);
+        int ergebnis = Integer.parseInt(output.getText().toString());
+        SharedPreferences sharedPref = this.getPreferences(MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt("Ergebnis", ergebnis);
+        editor.commit();
+        Toast.makeText(this, "Das Ergebnis wurde erfolgreich gespeichert!",Toast.LENGTH_SHORT).show();
+    }
+    public void loadErgebnis(View v) {
+        SharedPreferences sharedPref = this.getPreferences(MODE_PRIVATE);
+        int ergebnis = sharedPref.getInt("Ergebnis",0) ;
+        TextView output = findViewById(R.id.output);
+        output.setText(String.valueOf(ergebnis));
     }
 }
