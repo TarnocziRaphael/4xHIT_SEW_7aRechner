@@ -2,6 +2,7 @@ package sew.tarnoczi.rechner;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -17,23 +18,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Button berechnen = findViewById(R.id.buttonBerechnen);
-        berechnen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                berechnen(view);
-            }
-        });
+        activateRadioButtons();
         TextView output = findViewById(R.id.output);
         output.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 output.setText("0");
+                output.setTextColor(Color.WHITE);
                 return true;
             }
         });
     }
-    private void berechnen (View V) {
+    public void berechnen (View V) {
         EditText wert1 = findViewById(R.id.input1);
         EditText wert2 = findViewById(R.id.input2);
         RadioGroup rechenart = findViewById(R.id.radioGroup);
@@ -60,7 +56,22 @@ public class MainActivity extends AppCompatActivity {
             default:
                 result = 0;
         }
+        if(result > 0) {
+            output.setTextColor(Color.BLACK);
+        }
+        else if(result == 0){
+            output.setTextColor(Color.WHITE);
+        }
+        else {
+            output.setTextColor(Color.RED);
+        }
         String text = String.valueOf(result);
         output.setText(text);
+    }
+    public void activateRadioButtons() {
+        findViewById(R.id.radioButton1).setEnabled(true);
+        findViewById(R.id.radioButton2).setEnabled(true);
+        findViewById(R.id.radioButton3).setEnabled(true);
+        findViewById(R.id.radioButton4).setEnabled(true);
     }
 }
