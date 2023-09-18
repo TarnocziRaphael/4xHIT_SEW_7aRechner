@@ -11,6 +11,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -47,6 +50,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         activateButtons();
+    }
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.example_menu, menu);
+        return true;
     }
 
     public void berechnen (View V) {
@@ -118,5 +126,29 @@ public class MainActivity extends AppCompatActivity {
             output.setTextColor(Color.RED);
         }
         output.setText(String.valueOf(ergebnis));
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.reset) {
+            EditText input1 = findViewById(R.id.input1);
+            input1.setText(null);
+            EditText input2 = findViewById(R.id.input2);
+            input2.setText(null);
+            RadioGroup rg = findViewById(R.id.radioGroup);
+            if(rg.getCheckedRadioButtonId() != 0) {
+                RadioButton rb = findViewById(rg.getCheckedRadioButtonId());
+                rb.setChecked(false);
+            }
+            TextView tv = findViewById(R.id.output);
+            tv.setText("0");
+            return true;
+        }
+        else if(item.getItemId() == R.id.about) {
+            Toast.makeText(this, "Raphael Tarnoczi\n2023-09-18",Toast.LENGTH_SHORT).show();
+        }
+        else {
+            return false;
+        }
+        return false;
     }
 }
