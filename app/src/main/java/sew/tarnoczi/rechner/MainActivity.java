@@ -11,15 +11,18 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +41,10 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+        Spinner spinner = (Spinner) findViewById(R.id.rechentyp_spinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.rechentyp_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        spinner.setAdapter(adapter);
     }
 
     @Override
@@ -60,25 +67,23 @@ public class MainActivity extends AppCompatActivity {
     public void berechnen (View V) {
         EditText wert1 = findViewById(R.id.input1);
         EditText wert2 = findViewById(R.id.input2);
-        RadioGroup rechenart = findViewById(R.id.radioGroup);
-        int idCheckedBox = rechenart.getCheckedRadioButtonId();
-        RadioButton rb = findViewById(idCheckedBox);
-        char c = rb.getText().charAt(0);
+        Spinner spinner = (Spinner) findViewById(R.id.rechentyp_spinner);
+        String rechenart = spinner.getSelectedItem().toString();
         TextView output = findViewById(R.id.output);
         int zahl1 = Integer.parseInt(wert1.getText().toString());
         int zahl2 = Integer.parseInt(wert2.getText().toString());
         int result;
-        switch(c) {
-            case '+':
+        switch(rechenart) {
+            case "+":
                 result = zahl1+zahl2;
                 break;
-            case '-':
+            case "-":
                 result = zahl1 - zahl2;
                 break;
-            case '*':
+            case "*":
                 result = zahl1 * zahl2;
                 break;
-            case '/':
+            case "/":
                 result = zahl1 / zahl2;
                 break;
             default:
@@ -97,10 +102,6 @@ public class MainActivity extends AppCompatActivity {
         output.setText(text);
     }
     public void activateButtons() {
-        findViewById(R.id.radioButton1).setEnabled(true);
-        findViewById(R.id.radioButton2).setEnabled(true);
-        findViewById(R.id.radioButton3).setEnabled(true);
-        findViewById(R.id.radioButton4).setEnabled(true);
         findViewById(R.id.buttonBerechnen).setEnabled(true);
     }
     public void saveErgebnis(View v) {
@@ -134,11 +135,8 @@ public class MainActivity extends AppCompatActivity {
             input1.setText(null);
             EditText input2 = findViewById(R.id.input2);
             input2.setText(null);
-            RadioGroup rg = findViewById(R.id.radioGroup);
-            if(rg.getCheckedRadioButtonId() != 0) {
-                RadioButton rb = findViewById(rg.getCheckedRadioButtonId());
-                rb.setChecked(false);
-            }
+            Spinner spinner = (Spinner) findViewById(R.id.rechentyp_spinner);
+            spinner.setSelection(0);
             TextView tv = findViewById(R.id.output);
             tv.setText("0");
             return true;

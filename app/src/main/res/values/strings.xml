@@ -6,4 +6,10 @@
     <string name="ergebnis">Ergebnis</string>
     <string name="reset">Zurücksetzen</string>
     <string name="about">About</string>
+    <string-array name="rechentyp_array">
+        <item>+</item>
+        <item>-</item>
+        <item>*</item>
+        <item>/</item>
+    </string-array>
 </resources>
